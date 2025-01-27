@@ -9,16 +9,27 @@
 <body>
 
 <header>
-  <h1>Trombinoscope Greta DEV WEB</h1>
+  <h1>Trombinoscope Dwwm</h1>
 </header>
 
 <div class="container">
-  <div class="filter">
-    <input type="text" id="search" placeholder="Rechercher un apprenant...">
-  </div>
+    <div class="filter">
+      <input type="text" id="search" placeholder="Rechercher un apprenant...">
+      <select id="year-filter">
+        <option value="">Toutes les années</option>
+        <option value="2023">2022 - 2023</option>
+        <option value="2024">2023 - 2024</option>
+        <option value="2025">2024 - 2025</option>
+      </select>
+      <select id="skill-filter">
+        <option value="">Toutes les compétences</option>
+        <option value="front">Front-end</option>
+        <option value="back">Back-end</option>
+      </select>
+    </div>
 
   <div class="grid" id="trombinoscope">
-    <!-- Les cartes des apprenants seront injectées ici via JavaScript -->
+
     <div class="card">
       <img src="images/Kenan.png" alt="Photo de l'apprenant">
       <h3>Kenan</h3>
