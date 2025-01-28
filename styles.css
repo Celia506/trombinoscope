@@ -1,134 +1,55 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-  }
-  
-  header {
-    padding: 5px;
-    text-align: center;
-    background-color: #625cb4;
-    color: white;
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 15px;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f9;
+  color: #333;
+}
 
-  #year-filter {
-    padding: 10px;
-    font-size: 16px;
-    color: #333;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  #year-filter:hover {
-    border-color: #625cb4;
-    background-color: #fff;
-  }
-  
-  #year-filter:focus {
-    outline: none;
-    box-shadow: 0 0 5px #625cb4;
-  }
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #625cb4;
+  color: #fff;
+}
 
-  #skill-filter {
-    padding: 10px;
-    font-size: 16px;
-    color: #333;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  #skill-filter:hover {
-    border-color: #625cb4;
-    background-color: #fff;
-  }
-  
-  #skill-filter:focus {
-    outline: none;
-    box-shadow: 0 0 5px #625cb4;
-  }
-  
-  .filter {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .filter input {
-    padding: 10px;
-    font-size: 16px;
-    width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-  }
-  
-  .card {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    text-align: center;
-    padding: 20px;
-    transition: transform 0.2s;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .card img {
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
-    border-radius: 10px 10px 0 0;
-  }
-  
-  .card h3 {
-    margin: 15px 0 5px;
-    font-size: 18px;
-  }
-  
-  .card p {
-    margin: 5px 0;
-    color: #666;
-    font-size: 14px;
-  }
-  
-  .card a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #625cb4;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  
-  .card a:hover {
-    background-color: #625cb4;
-  }
-  
-  @media (max-width: 768px) {
-    .filter input {
-      width: 100%;
-    }
-  }
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.filter input,
+.filter select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.apprenant-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  padding: 15px;
+}
+
+.apprenant-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
