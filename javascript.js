@@ -28,12 +28,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   
       apprenants.forEach(apprenant => {
+        console.log (apprenant)
         const card = document.createElement("div");
         card.classList.add("apprenant-card");
         card.innerHTML = `
-          <img src="${apprenant.photo || "https://via.placeholder.com/100"}" alt="Photo de ${apprenant.nom}">
-          <h3>${apprenant.nom}</h3>
-          <p><strong>Promotion :</strong> ${apprenant.promotion}</p>
+          <img src="${apprenant.image || "https://via.placeholder.com/100"}" alt="Photo de ${apprenant.nom}">
+          <h3>${apprenant.title.rendered}</h3>
+           <p><strong>Promotion :</strong> ${apprenant.promotion || "Non précisé"}</p>
           <p><strong>Compétences :</strong> ${apprenant.competences ? apprenant.competences.join(", ") : "Aucune"}</p>
         `;
         container.appendChild(card);
