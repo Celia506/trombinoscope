@@ -1,15 +1,15 @@
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
+  font-family: Arial, sans-serif;
   background-color: #f4f4f9;
   color: #333;
 }
 
 header {
-  text-align: center;
   padding: 20px;
+  text-align: center;
   background-color: #625cb4;
-  color: #fff;
+  color: white;
 }
 
 .container {
@@ -20,31 +20,31 @@ header {
 
 .filter {
   display: flex;
+  justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
-  justify-content: center;
 }
 
-.filter input,
-.filter select {
+.filter input, .filter select {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.grid {
+#apprenants-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
 }
 
 .apprenant-card {
-  background-color: #fff;
+  background-color: white;
   border: 1px solid #ddd;
   border-radius: 10px;
-  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 15px;
+  text-align: center;
 }
 
 .apprenant-card img {
@@ -52,4 +52,16 @@ header {
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.apprenant-card h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.apprenant-card p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 14px;
 }

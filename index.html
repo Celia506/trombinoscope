@@ -7,19 +7,19 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Header -->
   <header>
     <h1>Trombinoscope DWWM Mende</h1>
   </header>
 
+  <!-- Filtres et recherche -->
   <div class="container">
-    <!-- Filtres -->
     <div class="filter">
       <input type="text" id="search" placeholder="Rechercher un apprenant...">
-      <select id="year-filter">
+      <select id="promotion-filter">
         <option value="">Toutes les promotions</option>
-        <option value="2023">2022 - 2023</option>
-        <option value="2024">2023 - 2024</option>
-        <option value="2025">2024 - 2025</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
       </select>
       <select id="skill-filter">
         <option value="">Toutes les compétences</option>
@@ -28,10 +28,10 @@
       </select>
     </div>
 
-    <!-- Grille des apprenants -->
-    <div id="apprenants-container" class="grid"></div>
+    <!-- Zone pour afficher les apprenants -->
+    <div id="apprenants-container"></div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="javascript.js"></script>
 </body>
 </html>

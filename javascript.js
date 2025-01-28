@@ -1,63 +1,65 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const apiUrl = "http://portfolios.ruki5964.odns.fr/?post_type=apprenants&#038;p=216";
+    const apiUrl = "http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants"; // URL de l'API
     const container = document.getElementById("apprenants-container");
-    const yearFilter = document.getElementById("year-filter");
-    const skillFilter = document.getElementById("skill-filter");
     const searchInput = document.getElementById("search");
+    const promotionFilter = document.getElementById("promotion-filter");
+    const skillFilter = document.getElementById("skill-filter");
   
-    let allApprenants = []; // Stocke les données récupérées
+    let allApprenants = []; // Stocker les apprenants récupérés
   
-    // Récupération des données
+    // Récupérer les données de l'API
     fetch(apiUrl)
       .then(response => {
         if (!response.ok) throw new Error("Erreur lors de la récupération des données.");
         return response.json();
       })
       .then(data => {
-        allApprenants = data;
-        displayApprenants(allApprenants); // Affiche tous les apprenants par défaut
+        allApprenants = data; // Stocker les données
+        displayApprenants(allApprenants); // Afficher les apprenants
       })
       .catch(error => console.error("Erreur : ", error));
   
-    // Fonction pour afficher les apprenants
+    // Afficher les apprenants dans le conteneur
     function displayApprenants(apprenants) {
-      container.innerHTML = ""; // Vide la grille
+      container.innerHTML = ""; // Réinitialiser le conteneur
+      if (apprenants.length === 0) {
+        container.innerHTML = "<p>Aucun apprenant trouvé.</p>";
+        return;
+      }
+  
       apprenants.forEach(apprenant => {
-        // Création de la carte
         const card = document.createElement("div");
         card.classList.add("apprenant-card");
         card.innerHTML = `
-          <img src="${apprenant.photo || "placeholder.jpg"}" alt="Photo de ${apprenant.nom}">
+          <img src="${apprenant.photo || "https://via.placeholder.com/100"}" alt="Photo de ${apprenant.nom}">
           <h3>${apprenant.nom}</h3>
-          <p><strong>Promotion :</strong> ${apprenant.promotion || "Inconnue"}</p>
-          <p><strong>Compétences :</strong> ${(apprenant.competences || []).join(", ")}</p>
+          <p><strong>Promotion :</strong> ${apprenant.promotion}</p>
+          <p><strong>Compétences :</strong> ${apprenant.competences ? apprenant.competences.join(", ") : "Aucune"}</p>
         `;
         container.appendChild(card);
       });
     }
   
-    // Fonction pour filtrer les apprenants
+    // Filtrer les apprenants
     function filterApprenants() {
-      const year = yearFilter.value;
-      const skill = skillFilter.value.toLowerCase();
-      const search = searchInput.value.toLowerCase();
+      const searchValue = searchInput.value.toLowerCase();
+      const promotionValue = promotionFilter.value;
+      const skillValue = skillFilter.value.toLowerCase();
   
-      const filtered = allApprenants.filter(apprenant => {
-        const matchesYear = !year || apprenant.promotion === year;
-        const matchesSkill =
-          !skill || (apprenant.competences || []).some(comp => comp.toLowerCase().includes(skill));
-        const matchesSearch =
-          !search || apprenant.nom.toLowerCase().includes(search);
+      const filteredApprenants = allApprenants.filter(apprenant => {
+        const matchesSearch = apprenant.nom.toLowerCase().includes(searchValue);
+        const matchesPromotion = promotionValue === "" || apprenant.promotion === promotionValue;
+        const matchesSkill = skillValue === "" || apprenant.competences.some(comp => comp.toLowerCase().includes(skillValue));
   
-        return matchesYear && matchesSkill && matchesSearch;
+        return matchesSearch && matchesPromotion && matchesSkill;
       });
   
-      displayApprenants(filtered); // Affiche les apprenants filtrés
+      displayApprenants(filteredApprenants);
     }
   
-    // Ajout des écouteurs d'événements pour les filtres
-    yearFilter.addEventListener("change", filterApprenants);
-    skillFilter.addEventListener("change", filterApprenants);
+    // Écouteurs d'événements pour filtrer
     searchInput.addEventListener("input", filterApprenants);
+    promotionFilter.addEventListener("change", filterApprenants);
+    skillFilter.addEventListener("change", filterApprenants);
   });
   
