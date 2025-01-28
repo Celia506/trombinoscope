@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trombinoscope</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <!-- header -->
   <header>
-    <h1>Trombinoscope Dwwm Mende</h1>
+    <h1>Trombinoscope DWWM Mende</h1>
   </header>
 
   <div class="container">
+    <!-- Filtres -->
     <div class="filter">
       <input type="text" id="search" placeholder="Rechercher un apprenant...">
       <select id="year-filter">
-        <option value="">Toutes les années</option>
+        <option value="">Toutes les promotions</option>
         <option value="2023">2022 - 2023</option>
         <option value="2024">2023 - 2024</option>
         <option value="2025">2024 - 2025</option>
@@ -30,83 +28,10 @@
       </select>
     </div>
 
-    <div class="grid" id="trombinoscope">
-
-      <div class="card">
-        <img src="images/Kenan.png" alt="Photo de l'apprenant">
-        <h3>Kenan</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-
-      <div class="card">
-        <img src="images/Théo.png" alt="Photo de l'apprenant">
-        <h3>Théo</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-
-      <div class="card">
-        <img src="images/celia.png" alt="Photo de l'apprenant">
-        <h3>Celia</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-      <div class="card">
-        <img src="images/Sylvain.png" alt="Photo de l'apprenant">
-        <h3>Sylvain</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-      <div class="card">
-        <img src="images/kevin.png" alt="Photo de l'apprenant">
-        <h3>Kevin</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-      <div class="card">
-        <img src="images/JB.png" alt="Photo de l'apprenant">
-        <h3>Jean-Baptiste</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-      <div class="card">
-        <img src="images/nadima.png" alt="Photo de l'apprenant">
-        <h3>Nadima</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-      <div class="card">
-        <img src="images/Guichard.png" alt="Photo de l'apprenant">
-        <h3>Guichard</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-      <div class="card">
-        <img src="images/yanis.png" alt="Photo de l'apprenant">
-        <h3>Yanis</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-      <div class="card">
-        <img src="images/Romain.png" alt="Photo de l'apprenant">
-        <h3>Romain</h3>
-        <p>Apprenant 2024-2025</p>
-        <p>Front-End</p>
-        <a href="#" target="_blank">Voir le profil</a>
-      </div>
-    </div>
+    <!-- Grille des apprenants -->
+    <div id="apprenants-container" class="grid"></div>
   </div>
 
+  <script src="script.js"></script>
 </body>
-
 </html>
