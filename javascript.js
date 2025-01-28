@@ -1,27 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const apiUrl = "http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants"; // URL de l'API
+    const apiUrl = "http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants"; // API
     const container = document.getElementById("apprenants-container");
     const searchInput = document.getElementById("search");
     const promotionFilter = document.getElementById("promotion-filter");
     const skillFilter = document.getElementById("skill-filter");
   
-    let allApprenants = []; // Stocker les apprenants récupérés
+    let allApprenants = []; // 
   
-    // Récupérer les données de l'API
+    // données de l'api
     fetch(apiUrl)
       .then(response => {
         if (!response.ok) throw new Error("Erreur lors de la récupération des données.");
         return response.json();
       })
       .then(data => {
-        allApprenants = data; // Stocker les données
-        displayApprenants(allApprenants); // Afficher les apprenants
+        allApprenants = data; // stocker les donnes
+        displayApprenants(allApprenants); // affichage des apprenants
       })
       .catch(error => console.error("Erreur : ", error));
   
-    // Afficher les apprenants dans le conteneur
+    // afficher les apprenants
     function displayApprenants(apprenants) {
-      container.innerHTML = ""; // Réinitialiser le conteneur
+      container.innerHTML = ""; 
       if (apprenants.length === 0) {
         container.innerHTML = "<p>Aucun apprenant trouvé.</p>";
         return;
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   
-    // Filtrer les apprenants
+    // Filtre
     function filterApprenants() {
       const searchValue = searchInput.value.toLowerCase();
       const promotionValue = promotionFilter.value;
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       displayApprenants(filteredApprenants);
     }
   
-    // Écouteurs d'événements pour filtrer
+
     searchInput.addEventListener("input", filterApprenants);
     promotionFilter.addEventListener("change", filterApprenants);
     skillFilter.addEventListener("change", filterApprenants);
