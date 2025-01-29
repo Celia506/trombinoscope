@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const promoId = apprenant.promotions[0]; 
                 const promoName = promotionsDict[promoId] || 'Inconnu';
 
-                // Récupérer les compétences et ajouter des classes pour la couleur
+                // Récupérer les compétences
                 const skillElements = apprenant.competences.map(skillId => {
                   const skillName = competencesDict[skillId] || 'Inconnu';
-                  let colorClass = 'skill-default'; // On garde uniquement la classe 'skill-default'
+                  let colorClass = 'skill-default'; 
                 
                   return `<span class="skill ${colorClass}">${skillName}</span>`;
                 });
