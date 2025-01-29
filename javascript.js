@@ -33,28 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Récupérer les compétences et ajouter des classes pour la couleur
                 const skillElements = apprenant.competences.map(skillId => {
                   const skillName = competencesDict[skillId] || 'Inconnu';
-                  let colorClass;
-
-                  switch(skillName) {
-                    case 'HTML5':
-                      colorClass = 'skill-html';
-                      break;
-                    case 'CSS':
-                      colorClass = 'skill-css';
-                      break;
-                    case 'TailwindCSS':
-                      colorClass = 'skill-tailwind';
-                      break;
-                    case 'JavaScript':
-                      colorClass = 'skill-js';
-                      break;
-                    case 'Figma':
-                      colorClass = 'skill-figma';
-                      break;
-                    default:
-                      colorClass = 'skill-default';
-                  }
-
+                  let colorClass = 'skill-default'; // On garde uniquement la classe 'skill-default'
+                
                   return `<span class="skill ${colorClass}">${skillName}</span>`;
                 });
 

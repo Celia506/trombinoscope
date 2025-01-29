@@ -84,13 +84,7 @@ h1 {
   color: white;
 }
 
-/* Couleurs des compétences */
-.skill-html { background-color: #e44d26; }
-.skill-css { background-color: #2965f1; }
-.skill-tailwind { background-color: #38bdf8; }
-.skill-js { background-color: #f7df1e; }
-.skill-figma { background-color: #f24e1e; }
-.skill-default { background-color: #888; }
+.skill-default { background-color: #6210ce; }
 
 /* Liens (icônes) */
 .links {
