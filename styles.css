@@ -16,6 +16,27 @@ h1 {
   margin-bottom: 20px;
 }
 
+.search-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-container input {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 250px;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: #6210ce;
+}
+
 /* Conteneur principal */
 .container {
   display: grid;
