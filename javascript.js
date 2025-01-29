@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const apiUrl = "http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants"; // URL de l'API
+  const apiUrl = "http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants?per_page=100"; // URL de l'API
   const container = document.getElementById("apprenants-container");
   const searchInput = document.getElementById("search");
   const promotionFilter = document.getElementById("promotion-filter");
