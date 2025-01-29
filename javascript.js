@@ -7,19 +7,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let allApprenants = []; // Stocke tous les apprenants récupérés
 
-  // Récupérer les données de l'API
-  fetch(apiUrl)
-    .then((response) => {
+  // Fonction pour récupérer les données de l'API
+  async function fetchApprenants() {
+    try {
+      const response = await fetch(apiUrl);
       if (!response.ok) throw new Error("Erreur lors de la récupération des données.");
-      return response.json();
-    })
-    .then((data) => {
-      allApprenants = data; // Stocker les données
-      displayApprenants(allApprenants); // Afficher les apprenants
-    })
-    .catch((error) => console.error("Erreur : ", error));
+      const data = await response.json();
+      if (!Array.isArray(data)) throw new Error("Les données ne sont pas au format attendu.");
+      allApprenants = data;
+      displayApprenants(allApprenants);
+    } catch (error) {
+      console.error("Erreur : ", error);
+      container.innerHTML = "<p>Erreur lors du chargement des données.</p>";
+    }
+  }
 
-  // Afficher les apprenants
+  // Fonction pour afficher les apprenants
   function displayApprenants(apprenants) {
     container.innerHTML = ""; // Vider le conteneur
     if (apprenants.length === 0) {
@@ -28,26 +31,47 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     apprenants.forEach((apprenant) => {
-      const card = document.createElement("div");
-      card.classList.add("apprenant-card");
-      card.innerHTML = `
-        <img src="${apprenant.image || "https://via.placeholder.com/100"}" alt="Photo de ${apprenant.title.rendered}">
-        <h3>${apprenant.title.rendered}</h3>
-        <p><strong>Promotion :</strong> ${apprenant.acf?.promotion || "Non précisé"}</p>
-        <p><strong>Compétences :</strong> ${apprenant.acf?.competences ? apprenant.acf.competences.join(", ") : "Aucune"}</p>
-      `;
+      const card = createApprenantCard(apprenant);
       container.appendChild(card);
     });
   }
 
-  // Filtrer les apprenants
+  // Fonction pour créer une carte d'apprenant
+  function createApprenantCard(apprenant) {
+    const card = document.createElement("div");
+    card.classList.add("apprenant-card");
+
+    const imageUrl = apprenant.image || "https://via.placeholder.com/100";
+    const name = apprenant.title?.rendered || "Nom inconnu";
+    const promotion = apprenant.acf?.promotion || "Non précisé";
+    const competences = apprenant.acf?.competences ? apprenant.acf.competences.join(", ") : "Aucune";
+    const portfolioLink = apprenant.acf?.portfolio || "#";
+    const linkedinLink = apprenant.acf?.linkedin || "#";
+    const githubLink = apprenant.acf?.github || "#";
+
+    card.innerHTML = `
+      <img src="${imageUrl}" alt="Photo de ${name}">
+      <h3>${name}</h3>
+      <p><strong>Promotion :</strong> ${promotion}</p>
+      <p><strong>Compétences :</strong> ${competences}</p>
+      <div class="links">
+        <a href="${portfolioLink}" target="_blank">Portfolio</a>
+        <a href="${linkedinLink}" target="_blank">LinkedIn</a>
+        <a href="${githubLink}" target="_blank">GitHub</a>
+      </div>
+    `;
+
+    return card;
+  }
+
+  // Fonction pour filtrer les apprenants
   function filterApprenants() {
     const searchValue = searchInput.value.toLowerCase();
     const promotionValue = promotionFilter.value;
     const skillValue = skillFilter.value.toLowerCase();
 
     const filteredApprenants = allApprenants.filter((apprenant) => {
-      const matchesSearch = apprenant.title.rendered.toLowerCase().includes(searchValue);
+      const matchesSearch = apprenant.title?.rendered.toLowerCase().includes(searchValue);
       const matchesPromotion = promotionValue === "" || apprenant.acf?.promotion === promotionValue;
       const matchesSkill =
         skillValue === "" ||
@@ -58,6 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     displayApprenants(filteredApprenants);
   }
+
+  // Initialisation
+  fetchApprenants(); // Récupérer les données au chargement de la page
 
   // Écouter les événements de filtrage
   searchInput.addEventListener("input", filterApprenants);
