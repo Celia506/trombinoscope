@@ -3,84 +3,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const container = document.getElementById('apprenants-container');
   const searchName = document.getElementById('search-name');
-  const searchSkill = document.getElementById('search-skill');
   const searchPromo = document.getElementById('search-promo');
+  const competencesContainer = document.getElementById('competences-filters');
 
   let allApprenants = [];
 
   // Récupérer les données des promotions
   fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/promotions')
-    .then(res => res.json())
-    .then(promotions => {
-      console.log('Données des promotions récupérées:', promotions);
+      .then(res => res.json())
+      .then(promotions => {
+          console.log('Données des promotions récupérées:', promotions);
 
-      const promotionsDict = {};
-      promotions.forEach(promo => {
-        promotionsDict[promo.id] = promo.slug;
-      });
-
-      // Récupérer les données des compétences
-      fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/competences')
-        .then(res => res.json())
-        .then(competences => {
-          console.log('Données des compétences récupérées:', competences);
-
-          const competencesDict = {};
-          competences.forEach(skill => {
-            competencesDict[skill.id] = skill.name;
+          const promotionsDict = {};
+          promotions.forEach(promo => {
+              promotionsDict[promo.id] = promo.slug;
           });
 
+          // Récupérer les données des compétences
+          return fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/competences')
+              .then(res => res.json())
+              .then(competences => {
+                  console.log('Données des compétences récupérées:', competences);
+
+                  const competencesDict = {};
+
+                  competences.forEach(skill => {
+                      competencesDict[skill.id] = skill.name;
+
+                      // Créer une case à cocher pour chaque compétence
+                      const checkbox = document.createElement('input');
+                      checkbox.type = 'checkbox';
+                      checkbox.id = `skill-${skill.id}`;
+                      checkbox.value = skill.id;
+                      checkbox.className = 'competence-checkbox';
+
+                      // Créer un label pour la case à cocher
+                      const label = document.createElement('label');
+                      label.htmlFor = `skill-${skill.id}`;
+                      label.textContent = skill.name;
+
+                      // Ajouter la case et le label au conteneur
+                      competencesContainer.appendChild(checkbox);
+                      competencesContainer.appendChild(label);
+                      competencesContainer.appendChild(document.createElement('br'));
+
+                      // Ajouter un événement pour filtrer en fonction des cases cochées
+                      checkbox.addEventListener('change', () => filterApprenants(promotionsDict, competencesDict));
+                  });
+
+                  return { promotionsDict, competencesDict };
+              });
+      })
+      .then(({ promotionsDict, competencesDict }) => {
           // Récupérer les données des apprenants
-          fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants?per_page=100')
-            .then(res => res.json())
-            .then(apprenants => {
-              console.log('Données des apprenants récupérées:', apprenants);
+          return fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants?per_page=100')
+              .then(res => res.json())
+              .then(apprenants => {
+                  console.log('Données des apprenants récupérées:', apprenants);
 
-              allApprenants = apprenants;
+                  allApprenants = apprenants;
 
-              // Affichage initial des apprenants
-              displayApprenants(apprenants, promotionsDict, competencesDict);
 
-              // Filtrage en fonction des recherches
-              searchName.addEventListener('input', () => {
-                console.log('Filtrage par nom:', searchName.value);
-                filterApprenants(promotionsDict, competencesDict);
+
+                  
+                  // Affichage initial des apprenants
+                  displayApprenants(apprenants, promotionsDict, competencesDict);
+
+                  // Ajout d'événements pour le filtrage par nom et promotion
+                  searchName.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
+                  searchPromo.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
               });
-
-              searchSkill.addEventListener('input', () => {
-                console.log('Filtrage par compétence:', searchSkill.value);
-                filterApprenants(promotionsDict, competencesDict);
-              });
-
-              searchPromo.addEventListener('input', () => {
-                console.log('Filtrage par promotion:', searchPromo.value);
-                filterApprenants(promotionsDict, competencesDict);
-              });
-            })
-            .catch(err => console.error('Erreur lors de la récupération des apprenants:', err));
-        })
-        .catch(err => console.error('Erreur lors de la récupération des compétences:', err));
-    })
-    .catch(err => console.error('Erreur lors de la récupération des promotions:', err));
+      })
+      .catch(err => console.error('Erreur lors de la récupération des données:', err));
 
   function displayApprenants(apprenants, promotionsDict, competencesDict) {
-    console.log('Affichage de', apprenants.length, 'apprenants');
+      console.log('Affichage de', apprenants.length, 'apprenants');
 
-    container.innerHTML = '';
+      container.innerHTML = '';
 
-    apprenants.forEach(apprenant => {
-      const promoId = apprenant.promotions[0]; 
-      const promoName = promotionsDict[promoId] || 'Inconnu';
+      apprenants.forEach(apprenant => {
+          const promoId = apprenant.promotions[0];
+          const promoName = promotionsDict[promoId] || 'Inconnu';
 
-      const skillElements = apprenant.competences.map(skillId => {
-        const skillName = competencesDict[skillId] || 'Inconnu';
-        return `<span class="skill skill-default">${skillName}</span>`;
-      });
+          const skillElements = apprenant.competences.map(skillId => {
+              const skillName = competencesDict[skillId] || 'Inconnu';
+              return `<span class="skill skill-default">${skillName}</span>`;
+          });
 
-      const card = document.createElement('div');
-      card.className = 'card';
+          const card = document.createElement('div');
+          card.className = 'card';
 
-      card.innerHTML = `
+          card.innerHTML = `
         <div class="card-inner">
           <div class="card-front">
             <h2 class="name">${apprenant.nom} ${apprenant.prenom}</h2>
@@ -98,32 +111,39 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      container.appendChild(card);
-    });
+          container.appendChild(card);
+      });
   }
 
   function filterApprenants(promotionsDict, competencesDict) {
-    console.log('Filtrage des apprenants en cours...');
+      console.log('Filtrage des apprenants en cours...');
 
-    const nameQuery = searchName.value.toLowerCase();
-    const skillQuery = searchSkill.value.toLowerCase();
-    const promoQuery = searchPromo.value.toLowerCase();
+      const nameQuery = searchName.value.toLowerCase();
+      const promoQuery = searchPromo.value.toLowerCase();
 
-    const filteredApprenants = allApprenants.filter(apprenant => {
-      const promoId = apprenant.promotions[0];
-      const promoName = promotionsDict[promoId] || '';
-      const skills = apprenant.competences.map(skillId => competencesDict[skillId] || '').join(' ').toLowerCase();
-      const name = `${apprenant.nom} ${apprenant.prenom}`.toLowerCase();
+      // Récupérer les compétences sélectionnées
+      const selectedSkills = Array.from(document.querySelectorAll('.competence-checkbox:checked'))
+          .map(cb => parseInt(cb.value));
 
-      return (
-        name.includes(nameQuery) &&
-        skills.includes(skillQuery) &&
-        promoName.toLowerCase().includes(promoQuery)
-      );
-    });
+      const filteredApprenants = allApprenants.filter(apprenant => {
+          const promoId = apprenant.promotions[0];
+          const promoName = promotionsDict[promoId] || '';
+          const name = `${apprenant.nom} ${apprenant.prenom}`.toLowerCase();
 
-    console.log('Nombre d\'apprenants après filtrage:', filteredApprenants.length);
-    
-    displayApprenants(filteredApprenants, promotionsDict, competencesDict);
+          // Vérifier si l'apprenant possède au moins une des compétences sélectionnées
+          const hasSelectedSkills = selectedSkills.length === 0 || apprenant.competences.some(skillId => selectedSkills.includes(skillId));
+
+          return (
+              name.includes(nameQuery) &&
+              promoName.toLowerCase().includes(promoQuery) &&
+              hasSelectedSkills
+          );
+      });
+
+      console.log(`Nombre d'apprenants après filtrage: ${filteredApprenants.length}`);
+
+      displayApprenants(filteredApprenants, promotionsDict, competencesDict);
   }
 });
+
+
