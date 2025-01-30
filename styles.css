@@ -159,6 +159,7 @@ h1 {
 }
 
 /* Pour les petits écrans */
+/* Pour les petits écrans */
 @media (max-width: 600px) {
   .container {
     padding: 10px;
@@ -173,4 +174,19 @@ h1 {
     width: 100px;
     height: 100px;
   }
-}
+
+
+  .case {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 10px;
+  }
+
+  .search-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    justify-content: center;
+  }}
