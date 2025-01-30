@@ -93,14 +93,14 @@ h1 {
   margin-top: 5px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 4px;
   justify-content: center;
 }
 
 .skill {
-  padding: 5px 10px;
+  padding: 4px 10px;
   font-size: 0.9rem;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 5px;
   color: white;
 }
