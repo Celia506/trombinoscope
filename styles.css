@@ -43,6 +43,40 @@ h1 {
 
 }
 
+#search-promo {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 250px;
+  background-color: #fff;
+  color: #333;
+  appearance: none; /* Enlever le style natif du select */
+  -webkit-appearance: none; /* Pour les anciens navigateurs Webkit */
+  -moz-appearance: none; /* Pour Firefox */
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+/* Ajouter une flèche customisée au select */
+#search-promo::after {
+  content: '▼'; /* Flèche vers le bas */
+  font-size: 1.2rem;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Changement de couleur de la bordure et du fond au focus */
+#search-promo:focus {
+  outline: none;
+  border-color: #6210ce;
+  background-color: #f5f5f5;
+}
+
+
 /* Conteneur principal */
 .container {
   display: grid;

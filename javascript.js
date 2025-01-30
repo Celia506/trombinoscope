@@ -3,18 +3,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const container = document.getElementById('apprenants-container');
     const searchName = document.getElementById('search-name');
-    const searchPromo = document.getElementById('search-promo');
+    const searchPromo = document.getElementById('search-promo');  // Sélecteur pour le menu déroulant
     const competencesContainer = document.getElementById('competences-filters');
 
     let allApprenants = [];
+    let promotionsDict = {};
 
     // Récupérer les données des promotions
     fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/promotions')
         .then(res => res.json())
         .then(promotions => {
             console.log('Données des promotions récupérées:', promotions);
-            const promotionsDict = {};
-            promotions.forEach(promo => promotionsDict[promo.id] = promo.slug);
+            promotions.forEach(promo => {
+                promotionsDict[promo.id] = promo.slug;
+                // Créer une option dans le select pour chaque promotion
+                const option = document.createElement('option');
+                option.value = promo.id;
+                option.textContent = promo.slug;  // Afficher le nom de la promotion
+                searchPromo.appendChild(option);
+            });
 
             // Récupérer les données des compétences
             fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/competences')
@@ -57,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             // Filtrage en fonction des recherches
                             searchName.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
-                            searchPromo.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
+                            searchPromo.addEventListener('change', () => filterApprenants(promotionsDict, competencesDict));  // Filtrage sur le changement de la promo
                         })
                         .catch(err => console.error('Erreur lors de la récupération des apprenants:', err));
                 })
@@ -79,24 +86,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-          <div class="card-inner">
-            <div class="card-front">
-              <h2 class="name">${apprenant.nom} ${apprenant.prenom}</h2>
-              <img class="profile-pic" src="${apprenant.image}" alt="Image de ${apprenant.nom}" />
-              <p class="promo">Promo: ${promoName}</p>
-              <div class="skills">${skillElements.join('')}</div>
+                <div class="card-inner">
+                    <div class="card-front">
+                        <h2 class="name">${apprenant.nom} ${apprenant.prenom}</h2>
+                        <img class="profile-pic" src="${apprenant.image}" alt="Image de ${apprenant.nom}" />
+                        <p class="promo">Promo: ${promoName}</p>
+                        <div class="skills">${skillElements.join('')}</div>
+                    </div>
+                </div>
+                <br>
+                <div class="links">
+                    <a href="${apprenant.urlgit}" target="_blank"><img src="logo/Github.png"></a>
+                    <a href="${apprenant.linkedin}" target="_blank"><img src="logo/linkedin.png"></a>
+                    <a href="${apprenant.cv}" target="_blank"><img src="logo/cv.png"></a>
+                    <a href="${apprenant.portfolio}" target="_blank"><img src="logo/portfolio.png"></a>
+                </div>
             </div>
-          </div>
-                      <br>
-            <div class="links">
-              <a href="${apprenant.urlgit}" target="_blank"><img src="logo/Github.png"></a>
-              <a href="${apprenant.linkedin}" target="_blank"><img src="logo/linkedin.png"></a>
-              <a href="${apprenant.cv}" target="_blank"><img src="logo/cv.png"></a>
-              <a href="${apprenant.portfolio}" target="_blank"><img src="logo/portfolio.png"></a>
-            </div>
-          </div>
-        </div>
-        `;
+            `;
             container.appendChild(card);
         });
     }
@@ -104,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function filterApprenants(promotionsDict, competencesDict) {
         console.log('Filtrage des apprenants en cours...');
         const nameQuery = searchName.value.toLowerCase();
-        const promoQuery = searchPromo.value.toLowerCase();
+        const promoQuery = searchPromo.value;  // Récupérer la valeur du select
         const selectedSkills = Array.from(document.querySelectorAll('.competence-checkbox:checked'))
             .map(cb => parseInt(cb.value));
 
@@ -116,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return (
                 name.includes(nameQuery) &&
-                promoName.toLowerCase().includes(promoQuery) &&
+                (promoQuery === '' || promoId == promoQuery) &&  // Vérification de la promo sélectionnée
                 (selectedSkills.length === 0 || hasSelectedSkills)
             );
         });
