@@ -96,7 +96,11 @@ h1 {
   gap: 8px;
   justify-content: center;
 }
-
+ 
+.filter-skills{
+  background-color: #ffffff;
+  width: 30px;
+}
 .skill {
   padding: 5px 10px;
   font-size: 0.9rem;

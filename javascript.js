@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('apprenants-container');
   const searchName = document.getElementById('search-name');
-  const searchSkill = document.getElementById('search-skill');
   const searchPromo = document.getElementById('search-promo');
+  const filterSkillsContainer = document.getElementById('filter-skills'); // Conteneur des cases à cocher
 
   let allApprenants = [];
 
@@ -24,25 +24,42 @@ document.addEventListener('DOMContentLoaded', () => {
           const competencesDict = {};
           competences.forEach(skill => {
             competencesDict[skill.id] = skill.name;
+
+            // Créer une case à cocher pour chaque compétence
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `skill-${skill.id}`;
+            checkbox.value = skill.id;
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `skill-${skill.id}`);
+            label.textContent = skill.name;
+
+            const checkboxContainer = document.createElement('div');
+            checkboxContainer.appendChild(checkbox);
+            checkboxContainer.appendChild(label);
+            filterSkillsContainer.appendChild(checkboxContainer);
           });
 
-          // Récupérer les données des apprenants
-          fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants?per_page=100')
-            .then(res => res.json())
-            .then(apprenants => {
-              allApprenants = apprenants;
-
-              // Affichage initial des apprenants
-              displayApprenants(apprenants, promotionsDict, competencesDict);
-
-              // Filtrage en fonction des recherches
-              searchName.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
-              searchSkill.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
-              searchPromo.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
-            })
-            .catch(err => console.error('Erreur:', err)); // Gestion des erreurs pour les apprenants
+          // Ajouter l'événement de filtrage pour chaque checkbox
+          filterSkillsContainer.addEventListener('change', () => filterApprenants(promotionsDict, competencesDict));
         })
         .catch(err => console.error('Erreur:', err)); // Gestion des erreurs pour les compétences
+
+      // Récupérer les données des apprenants
+      fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants?per_page=100')
+        .then(res => res.json())
+        .then(apprenants => {
+          allApprenants = apprenants;
+
+          // Affichage initial des apprenants
+          displayApprenants(apprenants, promotionsDict, competencesDict);
+
+          // Filtrage en fonction des recherches
+          searchName.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
+          searchPromo.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
+        })
+        .catch(err => console.error('Erreur:', err)); // Gestion des erreurs pour les apprenants
     })
     .catch(err => console.error('Erreur:', err)); // Gestion des erreurs pour les promotions
 
@@ -52,14 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     apprenants.forEach(apprenant => {
       // Récupérer le nom de la promotion
-      const promoId = apprenant.promotions[0]; 
+      const promoId = apprenant.promotions[0];
       const promoName = promotionsDict[promoId] || 'Inconnu';
 
       // Récupérer les compétences
       const skillElements = apprenant.competences.map(skillId => {
         const skillName = competencesDict[skillId] || 'Inconnu';
-        let colorClass = 'skill-default'; 
-        
+        let colorClass = 'skill-default'; // Vous pouvez ajouter de la logique ici pour changer les couleurs
         return `<span class="skill ${colorClass}">${skillName}</span>`;
       });
 
@@ -87,8 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fonction de filtrage des apprenants
   function filterApprenants(promotionsDict, competencesDict) {
     const nameQuery = searchName.value.toLowerCase();
-    const skillQuery = searchSkill.value.toLowerCase();
     const promoQuery = searchPromo.value.toLowerCase();
+
+    // Récupérer les compétences sélectionnées (cases à cocher)
+    const selectedSkills = Array.from(document.querySelectorAll('#filter-skills input[type="checkbox"]:checked'))
+      .map(checkbox => checkbox.value);
 
     const filteredApprenants = allApprenants.filter(apprenant => {
       const promoId = apprenant.promotions[0];
@@ -96,10 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const skills = apprenant.competences.map(skillId => competencesDict[skillId] || '').join(' ').toLowerCase();
       const name = `${apprenant.nom} ${apprenant.prenom}`.toLowerCase();
 
+      // Vérifier si l'apprenant a toutes les compétences sélectionnées
+      const matchesSkills = selectedSkills.every(skillId => apprenant.competences.includes(parseInt(skillId)));
+
       return (
         name.includes(nameQuery) &&
-        skills.includes(skillQuery) &&
-        promoName.toLowerCase().includes(promoQuery)
+        promoName.toLowerCase().includes(promoQuery) &&
+        matchesSkills
       );
     });
 
