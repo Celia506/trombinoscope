@@ -94,10 +94,10 @@ h1 {
 /* Compétences */
 .skills {
   margin-top: 5px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, auto));
-  gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 3px;
 }
 
 .skill {
