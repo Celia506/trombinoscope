@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM chargé, début du script'); // Vérifie que le script est bien exécuté
+
   const container = document.getElementById('apprenants-container');
   const searchName = document.getElementById('search-name');
   const searchSkill = document.getElementById('search-skill');
@@ -10,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/promotions')
     .then(res => res.json())
     .then(promotions => {
-      // Création d'un dictionnaire pour les promotions
+      console.log('Données des promotions récupérées:', promotions);
+
       const promotionsDict = {};
       promotions.forEach(promo => {
         promotionsDict[promo.id] = promo.slug;
@@ -20,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
       fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/competences')
         .then(res => res.json())
         .then(competences => {
-          // Création d'un dictionnaire pour les compétences
+          console.log('Données des compétences récupérées:', competences);
+
           const competencesDict = {};
           competences.forEach(skill => {
             competencesDict[skill.id] = skill.name;
@@ -30,44 +34,52 @@ document.addEventListener('DOMContentLoaded', () => {
           fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants?per_page=100')
             .then(res => res.json())
             .then(apprenants => {
+              console.log('Données des apprenants récupérées:', apprenants);
+
               allApprenants = apprenants;
 
               // Affichage initial des apprenants
               displayApprenants(apprenants, promotionsDict, competencesDict);
 
               // Filtrage en fonction des recherches
-              searchName.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
-              searchSkill.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
-              searchPromo.addEventListener('input', () => filterApprenants(promotionsDict, competencesDict));
-            })
-            .catch(err => console.error('Erreur:', err)); // Gestion des erreurs pour les apprenants
-        })
-        .catch(err => console.error('Erreur:', err)); // Gestion des erreurs pour les compétences
-    })
-    .catch(err => console.error('Erreur:', err)); // Gestion des erreurs pour les promotions
+              searchName.addEventListener('input', () => {
+                console.log('Filtrage par nom:', searchName.value);
+                filterApprenants(promotionsDict, competencesDict);
+              });
 
-  // Fonction pour afficher les apprenants
+              searchSkill.addEventListener('input', () => {
+                console.log('Filtrage par compétence:', searchSkill.value);
+                filterApprenants(promotionsDict, competencesDict);
+              });
+
+              searchPromo.addEventListener('input', () => {
+                console.log('Filtrage par promotion:', searchPromo.value);
+                filterApprenants(promotionsDict, competencesDict);
+              });
+            })
+            .catch(err => console.error('Erreur lors de la récupération des apprenants:', err));
+        })
+        .catch(err => console.error('Erreur lors de la récupération des compétences:', err));
+    })
+    .catch(err => console.error('Erreur lors de la récupération des promotions:', err));
+
   function displayApprenants(apprenants, promotionsDict, competencesDict) {
-    container.innerHTML = ''; // Vider le conteneur avant d'ajouter les nouveaux éléments
+    console.log('Affichage de', apprenants.length, 'apprenants');
+
+    container.innerHTML = '';
 
     apprenants.forEach(apprenant => {
-      // Récupérer le nom de la promotion
       const promoId = apprenant.promotions[0]; 
       const promoName = promotionsDict[promoId] || 'Inconnu';
 
-      // Récupérer les compétences
       const skillElements = apprenant.competences.map(skillId => {
         const skillName = competencesDict[skillId] || 'Inconnu';
-        let colorClass = 'skill-default'; 
-        
-        return `<span class="skill ${colorClass}">${skillName}</span>`;
+        return `<span class="skill skill-default">${skillName}</span>`;
       });
 
-      // Créer la carte de l'apprenant
       const card = document.createElement('div');
       card.className = 'card';
 
-      // Remplir la carte avec les données de l'apprenant
       card.innerHTML = `
         <div class="card-inner">
           <div class="card-front">
@@ -77,22 +89,22 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="skills">${skillElements.join('')}</div>
             <br>
             <div class="links">
-            <a href="${apprenant.urlgit}" target="_blank"><img src="logo/Github.png"></a>
-            <a href="${apprenant.linkedin}" target="_blank"><img src="logo/linkedin.png"></a>
-            <a href="${apprenant.cv}" target="_blank"><img src="logo/cv.png"></a>
-            <a href="${apprenant.portfolio}" target="_blank"><img src="logo/portfolio.png"></a>
-           </div>
+              <a href="${apprenant.urlgit}" target="_blank"><img src="logo/Github.png"></a>
+              <a href="${apprenant.linkedin}" target="_blank"><img src="logo/linkedin.png"></a>
+              <a href="${apprenant.cv}" target="_blank"><img src="logo/cv.png"></a>
+              <a href="${apprenant.portfolio}" target="_blank"><img src="logo/portfolio.png"></a>
+            </div>
           </div>
         </div>
       `;
 
-      // Ajouter la carte au conteneur
       container.appendChild(card);
     });
   }
 
-  // Fonction de filtrage des apprenants
   function filterApprenants(promotionsDict, competencesDict) {
+    console.log('Filtrage des apprenants en cours...');
+
     const nameQuery = searchName.value.toLowerCase();
     const skillQuery = searchSkill.value.toLowerCase();
     const promoQuery = searchPromo.value.toLowerCase();
@@ -110,7 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     });
 
-    // Afficher les apprenants filtrés
+    console.log('Nombre d\'apprenants après filtrage:', filteredApprenants.length);
+    
     displayApprenants(filteredApprenants, promotionsDict, competencesDict);
   }
 });
