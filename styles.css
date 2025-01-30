@@ -140,15 +140,6 @@ h1 {
   cursor: pointer; /* Indiquer que l'élément est interactif */
 }
 
-/* Si tu veux que les petites cases (par exemple des boutons) deviennent violettes au survol */
-#competences-filters.case > button:hover {
-  background-color: #b489b4; /* Fond violet au survol */
-  color: #fff; /* Texte blanc sur fond violet */
-  border: none; /* Supprimer la bordure si nécessaire */
-}
-
-
-
 .skill {
   padding: 4px 10px;
   font-size: 0.9rem;
@@ -182,6 +173,7 @@ h1 {
     width: 100px;
     height: 100px;
   }
+
 }
 .case {
   display: flex;

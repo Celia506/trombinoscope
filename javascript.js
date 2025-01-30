@@ -87,6 +87,15 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="skills">${skillElements.join('')}</div>
             </div>
           </div>
+                      <br>
+            <div class="links">
+              <a href="${apprenant.urlgit}" target="_blank"><img src="logo/Github.png"></a>
+              <a href="${apprenant.linkedin}" target="_blank"><img src="logo/linkedin.png"></a>
+              <a href="${apprenant.cv}" target="_blank"><img src="logo/cv.png"></a>
+              <a href="${apprenant.portfolio}" target="_blank"><img src="logo/portfolio.png"></a>
+            </div>
+          </div>
+        </div>
         `;
             container.appendChild(card);
         });
