@@ -107,6 +107,12 @@ h1 {
 
 .skill-default { background-color: #6210ce; }
 
+.links img {
+  width: 24px;
+  height: 24px;
+  margin: 0 5px;
+}
+
 /* Pour les petits écrans */
 @media (max-width: 600px) {
   .container {
