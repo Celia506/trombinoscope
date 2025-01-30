@@ -40,6 +40,7 @@ h1 {
 .search-container input:focus {
   outline: none;
   border-color: #6210ce;
+
 }
 
 /* Conteneur principal */
@@ -57,7 +58,6 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 15px;
   color: white;
 }
 
