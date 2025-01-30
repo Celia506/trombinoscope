@@ -10,11 +10,11 @@ body {
 
 /* Titre principal */
 h1 {
-  font-size: 2.8rem; 
-  color: #ffffff; 
-  font-weight: bold; 
-  letter-spacing: 1px; 
-  text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.3); 
+  font-size: 2.8rem;
+  color: #ffffff;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.3);
   margin-top: 30px;
   margin-bottom: 20px;
 }
@@ -100,6 +100,14 @@ h1 {
   gap: 3px;
 }
 
+.filter-skills {
+  display: flex;
+  margin: 5rem;
+  align-items: center;
+  color: rgb(243, 243, 243);
+  width: 30px;
+}
+
 .skill {
   padding: 4px 10px;
   font-size: 0.9rem;
@@ -108,7 +116,9 @@ h1 {
   color: white;
 }
 
-.skill-default { background-color: #6210ce; }
+.skill-default {
+  background-color: #6210ce;
+}
 
 .links img {
   width: 24px;
