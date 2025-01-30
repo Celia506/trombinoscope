@@ -111,13 +111,43 @@ h1 {
   gap: 3px;
 }
 
-.filter-skills {
+#competences-filters.case {
   display: flex;
-  margin: 5rem;
-  align-items: center;
-  color: rgb(243, 243, 243);
-  width: 30px;
+  justify-content: space-between; /* Espacement entre les éléments */
+  align-items: center; /* Centrer les éléments verticalement */
+  width: 100%;
+  height: 80px; /* Hauteur fixe */
+  background-color: #ffffff; /* Fond blanc pour un look propre */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Ombre douce mais plus marquée */
+  padding: 0 20px;
+  margin: 20px 0;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Animation douce pour l'effet hover */
 }
+
+#competences-filters.case:hover {
+  background-color: #f7f7f7; /* Couleur de fond claire au survol */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Ombre un peu plus prononcée au survol */
+}
+
+#competences-filters.case > * {
+  font-family: 'Arial', sans-serif; /* Police propre et moderne */
+  font-weight: 500; /* Légèrement plus gras pour une meilleure lisibilité */
+  color: #000000; /* Texte sombre pour un bon contraste */
+}
+
+#competences-filters.case > *:hover {
+  color: #6210ce; /* Changer la couleur du texte au survol */
+  cursor: pointer; /* Indiquer que l'élément est interactif */
+}
+
+/* Si tu veux que les petites cases (par exemple des boutons) deviennent violettes au survol */
+#competences-filters.case > button:hover {
+  background-color: #b489b4; /* Fond violet au survol */
+  color: #fff; /* Texte blanc sur fond violet */
+  border: none; /* Supprimer la bordure si nécessaire */
+}
+
+
 
 .skill {
   padding: 4px 10px;
