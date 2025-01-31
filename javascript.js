@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let promotionsDict = {};
 
     // Récupérer les données des promotions
-    fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/promotions')
+    fetch('https://api-trombi.webedy.fr/wp-json/wp/v2/promotions')
         .then(res => res.json())
         .then(promotions => {
             console.log('Données des promotions récupérées:', promotions);
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // Récupérer les données des compétences
-            fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/competences')
+            fetch('https://api-trombi.webedy.fr/wp-json/wp/v2/competences')
                 .then(res => res.json())
                 .then(competences => {
                     console.log('Données des compétences récupérées:', competences);
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     // Récupérer les données des apprenants
-                    fetch('http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/apprenants?per_page=100')
+                    fetch('https://api-trombi.webedy.fr/wp-json/wp/v2/apprenants/?per_page=100')
                         .then(res => res.json())
                         .then(apprenants => {
                             console.log('Données des apprenants récupérées:', apprenants);
