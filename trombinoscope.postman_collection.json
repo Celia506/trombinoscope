@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "8c3ff473-9f09-42e7-9ca2-32d3d053b5c7",
+		"name": "trombinoscope",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41611104"
+	},
+	"item": [
+		{
+			"name": "apprenants",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the structure of the response JSON\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('array').that.is.not.empty;\r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item).to.be.an('object');\r",
+							"        pm.expect(item).to.have.property('id');\r",
+							"        pm.expect(item).to.have.property('date');\r",
+							"        pm.expect(item).to.have.property('guid').that.is.an('object').and.has.property('rendered');\r",
+							"        pm.expect(item).to.have.property('title').that.is.an('object').and.has.property('rendered');\r",
+							"        pm.expect(item).to.have.property('excerpt').that.is.an('object').and.has.property('rendered');\r",
+							"        pm.expect(item).to.have.property('_links').that.is.an('object').and.has.property('self').that.is.an('array').and.is.not.empty;\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Ensure the presence of required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    \r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item).to.have.property('id');\r",
+							"        pm.expect(item).to.have.property('date');\r",
+							"        pm.expect(item).to.have.property('guid');\r",
+							"        pm.expect(item).to.have.property('title');\r",
+							"        pm.expect(item).to.have.property('excerpt');\r",
+							"        pm.expect(item).to.have.property('featured_media');\r",
+							"        pm.expect(item).to.have.property('promotions');\r",
+							"        pm.expect(item).to.have.property('competences');\r",
+							"        pm.expect(item).to.have.property('acf');\r",
+							"        pm.expect(item).to.have.property('prenom');\r",
+							"        pm.expect(item).to.have.property('nom');\r",
+							"        pm.expect(item).to.have.property('portfolio');\r",
+							"        pm.expect(item).to.have.property('urlgit');\r",
+							"        pm.expect(item).to.have.property('image');\r",
+							"        pm.expect(item).to.have.property('_links');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Date and modified fields should have valid format\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    \r",
+							"    responseData.forEach(item => {\r",
+							"        pm.expect(item.date).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/);\r",
+							"        pm.expect(item.modified).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/);\r",
+							"    });\r",
+							"});\r",
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>ID</th>\r",
+							"        <th>Date</th>\r",
+							"        <th>Last Modified</th>\r",
+							"        <th>Title</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response}}\r",
+							"        <tr>\r",
+							"            <td>{{id}}</td>\r",
+							"            <td>{{date}}</td>\r",
+							"            <td>{{modified}}</td>\r",
+							"            <td>{{title.rendered}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()}\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api-trombi.webedy.fr/wp-json/wp/v2/apprenants?per_page=100",
+					"protocol": "https",
+					"host": [
+						"api-trombi",
+						"webedy",
+						"fr"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"apprenants"
+					],
+					"query": [
+						{
+							"key": "per_page",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "competences",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api-trombi.webedy.fr/wp-json/wp/v2/competences",
+					"protocol": "https",
+					"host": [
+						"api-trombi",
+						"webedy",
+						"fr"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"competences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "promotions",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://portfolios.ruki5964.odns.fr/wp-json/wp/v2/promotions",
+					"protocol": "http",
+					"host": [
+						"portfolios",
+						"ruki5964",
+						"odns",
+						"fr"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"promotions"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
