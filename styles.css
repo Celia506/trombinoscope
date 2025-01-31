@@ -210,6 +210,6 @@ h1 {
     padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    justify-content: center;
-  }}
+    margin: 0 auto 0 auto  
+  }
+}
