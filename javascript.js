@@ -101,8 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a href="${apprenant.cv}" target="_blank"><img src="./logo/cv.png"></a>
                     <a href="${apprenant.portfolio}" target="_blank"><img src="./logo/portfolio.png"></a>
                 </div>
-                     <p class="excerpt">${apprenant.excerpt.rendered}</p>
-            </div>
+                <div>
+                    <p class="excerpt">${apprenant.excerpt.rendered}</p>
+                </div>
             `;
             container.appendChild(card);
         });

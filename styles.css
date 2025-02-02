@@ -10,7 +10,7 @@ body {
 
 /* Titre principal */
 h1 {
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   color: #ffffff;
   font-weight: bold;
   letter-spacing: 1px;
@@ -21,6 +21,7 @@ h1 {
 
 
 .search-container {
+  border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
   display: grid;
@@ -93,8 +94,9 @@ h1 {
   box-shadow: 0 2px 8px rgba(87, 6, 141, 0.1);
   padding: 20px;
   grid-template-rows: auto auto auto auto;
-  height: 400px;
+  height: auto;
   transition: transform 0.3s ease;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Effet hover sur la carte */
@@ -136,14 +138,14 @@ h1 {
 
 #competences-filters.case {
   display: flex;
-  justify-content: space-between; /* Espacement entre les éléments */
-  align-items: center; /* Centrer les éléments verticalement */
-  width: 100%;
+  justify-content: space-between;
+  align-items: center; 
+  width: 90%;
+  margin: auto;
+  border-radius: 10px;
   height: 80px; /* Hauteur fixe */
   background-color: #ffffff; /* Fond blanc pour un look propre */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Ombre douce mais plus marquée */
-  padding: 0 20px;
-  margin: 20px 0;
   transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Animation douce pour l'effet hover */
 }
 
@@ -207,9 +209,17 @@ h1 {
   }
 
   .search-container {
+    border-radius: 10px;
     padding: 10px;
+    margin: auto;
     display: flex;
     flex-direction: column;
-    margin: 0 auto 0 auto  
+  
+  }
+
+  #competences-filters.case{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 }
